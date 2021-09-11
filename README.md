@@ -25,7 +25,7 @@ To test the application, used POSTMAN to send HTTP requests and see response
    The message format will be: `<WALLET_ADRESS>:${new Date().getTime().toString().slice(0,-3)}:starRegistry`;
    <img width="934" alt="スクリーンショット 2021-09-11 13 31 01" src="https://user-images.githubusercontent.com/20425552/132937129-91ae1417-4b2f-4280-9704-4c3a28ec5005.png">
    
-3. Once the user have the message, the user can use a Wallet to sign the message. Used Bitcoin Core for a sample.
+3. Once the user have the message, the user can use a Wallet to sign the message. Used Bitcoin Core for a sample. 
    <img width="730" alt="スクリーンショット 2021-09-11 13 32 09" src="https://user-images.githubusercontent.com/20425552/132937155-135cdae5-1bb3-41dc-beec-708f256c1fe2.png">
 
 4. submit the Star object for that it will submit: `wallet address`, `message`, `signature` and the `star` object with the star information.
