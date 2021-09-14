@@ -46,3 +46,8 @@ To test the application, used POSTMAN to send HTTP requests and see response
 8. you can call the endpoint to validate the chain.
    <img width="937" alt="スクリーンショット 2021-09-14 9 19 54" src="https://user-images.githubusercontent.com/20425552/133174851-b395988f-70f2-47dd-898a-40b968838bcf.png">
 
+## Debugging codes
+You can see error details by debug package:`DEBUG=http://localhost:8000/ node app.js`
+
+<img width="840" alt="スクリーンショット 2021-09-14 12 10 10" src="https://user-images.githubusercontent.com/20425552/133188647-d1189c1c-77ba-4ecb-97e3-bc87b9528294.png">
+
