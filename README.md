@@ -43,3 +43,6 @@ To test the application, used POSTMAN to send HTTP requests and see response
 6. If everything is okay the star information will be stored in the block and added to the `chain`
 7. The application will allow us to retrieve the Star objects belong to an owner (wallet address). 
    <img width="1010" alt="スクリーンショット 2021-09-11 13 31 51" src="https://user-images.githubusercontent.com/20425552/132937298-2e97d52f-4077-4427-ae3f-cd81a21e3bb2.png">
+8. you can call the endpoint to validate the chain.
+   <img width="937" alt="スクリーンショット 2021-09-14 9 19 54" src="https://user-images.githubusercontent.com/20425552/133174851-b395988f-70f2-47dd-898a-40b968838bcf.png">
+
