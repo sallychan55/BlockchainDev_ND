@@ -13,6 +13,8 @@ const hex2ascii = require('hex2ascii');
 const BlockClass = require('./block.js');
 const bitcoinMessage = require('bitcoinjs-message');
 
+const debug = require('debug')('http://localhost:8000/');
+
 class Blockchain {
 
     /**
@@ -72,13 +74,13 @@ class Blockchain {
             block.hash = await SHA256(JSON.stringify(block)).toString();
             self.validateChain().then(errors => {
                 if(errors.length !== 0){
-                    errors.forEach(error => console.error('Validation Failed: ', error));
+                    errors.forEach(error => debug('Validation Failed: ', error));
                     reject('Failed to validate the chain');
                 }
                 resolve(block);
             });
         })
-        .catch(error => console.log('Failed to add a block: ', error)) 
+        .catch(error => debug('Failed to add a block: ', error)) 
         .then(block => {
             this.chain.push(block);
             this.height = this.chain.length - 1;
@@ -123,7 +125,7 @@ class Blockchain {
         return new Promise(async (resolve, reject) => {
             let messageTime = parseInt(message.split(':')[1]);
             let currentTime = parseInt(new Date().getTime().toString().slice(0,-3));
-            if(Math.floor((currentTime - messageTime) / 60) < 5*60*60){
+            if(Math.floor((currentTime - messageTime) / 60) < 5*60){
                 let isValid = bitcoinMessage.verify(message, address, signature);
                 if(isValid){
                     let block = new BlockClass.Block({owner: address, star:star});

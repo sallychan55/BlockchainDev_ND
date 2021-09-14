@@ -5,6 +5,8 @@
  * This class expose the endpoints that the client applications will use to interact with the 
  * Blockchain dataset
  */
+ const debug = require('debug')('http://localhost:8000/');
+
 class BlockchainController {
 
     //The constructor receive the instance of the express.js app and the Blockchain class
@@ -110,6 +112,7 @@ class BlockchainController {
                         return res.status(404).send("Block Not Found!");
                     }
                 } catch (error) {
+                    debug('Failed to find stars by owner: ', error);
                     return res.status(500).send("An error happened!");
                 }
             } else {

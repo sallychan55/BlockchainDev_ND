@@ -14,6 +14,8 @@ const bodyParser = require("body-parser");
  */
 const BlockChain = require('./src/blockchain.js');
 
+const debug = require('debug')('http://localhost:8000/');
+
 class ApplicationServer {
 
 	constructor() {
@@ -47,8 +49,14 @@ class ApplicationServer {
 
 	start() {
 		let self = this;
+		//const debug = require('debug')('http://localhost:8000/');
+		/*
 		this.app.listen(this.app.get("port"), () => {
 			console.log(`Server Listening for port: ${self.app.get("port")}`);
+		});
+		*/
+		this.app.listen(this.app.get("port"), () => {
+			debug(`Server Listening for port: ${self.app.get("port")}`);
 		});
 	}
 
