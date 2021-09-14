@@ -64,15 +64,19 @@ class Blockchain {
      */
     _addBlock(block) {
         let self = this;
-        console.log('OUT:'+ self.chain.length +' = '+ block.height + ", " + self.getChainHeight().height);
         return new Promise(async (resolve, reject) => {
             let height = self.chain.length;
             block.previousBlockHash = self.chain[height - 1] ? self.chain[height - 1].hash : null;
             block.height = height;
             block.time = new Date().getTime().toString().slice(0,-3);
             block.hash = await SHA256(JSON.stringify(block)).toString();
-            console.log('IN: ' + self.chain.length +' = '+ block.height + ", " + self.getChainHeight().height);
-            block.hash && (block.hash.length === 64) && (block.height === self.chain.length) && block.time ? resolve(block) : reject(new Error('Cannot add invalid block.'));
+            self.validateChain().then(errors => {
+                if(errors.length !== 0){
+                    errors.forEach(error => console.error('Validation Failed: ', error));
+                    reject('Failed to validate the chain');
+                }
+                resolve(block);
+            });
         })
         .catch(error => console.log('Failed to add a block: ', error)) 
         .then(block => {
@@ -117,9 +121,9 @@ class Blockchain {
     submitStar(address, message, signature, star) {
         let self = this;
         return new Promise(async (resolve, reject) => {
-            let time = parseInt(message.split(':')[1]);
+            let messageTime = parseInt(message.split(':')[1]);
             let currentTime = parseInt(new Date().getTime().toString().slice(0,-3));
-            if((time + 5*60*1000) >= currentTime){
+            if(Math.floor((currentTime - messageTime) / 60) < 5*60*60){
                 let isValid = bitcoinMessage.verify(message, address, signature);
                 if(isValid){
                     let block = new BlockClass.Block({owner: address, star:star});
@@ -179,11 +183,7 @@ class Blockchain {
     getStarsByWalletAddress (address) {
         let self = this;
         let stars = [];
-        this.validateChain().then(errors => {
-            if(errors.length !== 0){
-                errors.forEach(error => console.log('Validation Failed: ', error));
-            }
-        });
+
         return new Promise(async (resolve, reject) => {
             let ownedBlocks = self.chain.filter(block => block.owner === address);
             if(ownedBlocks.length === 0) {
@@ -203,7 +203,7 @@ class Blockchain {
      * Steps to validate:
      * 1. You should validate each block using `validateBlock`
      * 2. Each Block should check the with the previousBlockHash
-     */f
+     */
     validateChain() {
         let self = this;
         let errorLog = [];
